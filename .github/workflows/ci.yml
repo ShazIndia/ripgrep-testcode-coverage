@@ -248,7 +248,7 @@ jobs:
           cargo llvm-cov clean --workspace
           cargo llvm-cov --json --output-path=coverage.json
   
-      - name: Check coverage
+      - name: Check coverage for code
         id: coverage-check
         run: |
           COVERAGE=$(jq '.data[0].totals.lines.pct' < coverage.json)
