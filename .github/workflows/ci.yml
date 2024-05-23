@@ -243,11 +243,14 @@ jobs:
       - name: Run tests and generate coverage report
         run: |
           cargo llvm-cov clean --workspace
-          cargo llvm-cov --json 
-  
-      - name: Parse coverage report
-        id: coverage
+          cargo llvm-cov --json --output-path=coverage.json
+
+      - name: Check coverage
+        id: coverage-check
         run: |
-          COVERAGE=$(jq '.data[0].totals.lines.pct' < coverage.json)
-          echo "Line coverage is ${COVERAGE}%"
-          echo "coverage=${COVERAGE}" >> $GITHUB_ENV
+          COVERAGE=$(jq '.data[0].totals.lines.percent' < coverage.json)
+          echo "Coverage is $COVERAGE%"
+          if (( $(echo "$COVERAGE < 10" | bc -l) )); then
+          echo "Code coverage is below 10%"
+          exit 1
+          fi
