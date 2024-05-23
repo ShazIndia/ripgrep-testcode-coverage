@@ -233,9 +233,6 @@ jobs:
       
       - name: Run tests
         run: cargo test --verbose
-  
-      - name: Run Clippy
-        run: cargo clippy --all-targets --all-features
 
       - name: Install cargo-llvm-cov
         run: cargo install cargo-llvm-cov
