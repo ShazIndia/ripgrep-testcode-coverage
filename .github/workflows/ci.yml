@@ -243,7 +243,7 @@ jobs:
       - name: Run tests and generate coverage report
         run: |
           cargo llvm-cov clean --workspace
-          cargo llvm-cov --json --output-path=coverage.json
+          cargo llvm-cov --json 
   
       - name: Parse coverage report
         id: coverage
