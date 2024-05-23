@@ -245,12 +245,9 @@ jobs:
           cargo llvm-cov clean --workspace
           cargo llvm-cov --json --output-path=coverage.json
   
-      - name: Check coverage for code
-        id: coverage-check
+      - name: Parse coverage report
+        id: coverage
         run: |
           COVERAGE=$(jq '.data[0].totals.lines.pct' < coverage.json)
-          echo "Coverage is $COVERAGE%"
-          if (( $(echo "$COVERAGE < 0" | bc -l) )); then
-            echo "Code coverage is below 0%"
-            exit 1
-          fi
+          echo "Line coverage is ${COVERAGE}%"
+          echo "coverage=${COVERAGE}" >> $GITHUB_ENV
